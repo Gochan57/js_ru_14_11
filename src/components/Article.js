@@ -1,40 +1,42 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 import CommentList from './CommentList'
 
 class Article extends Component {
 
-    constructor() {
-        super()
-        this.state = {
-            isOpen: false,
-            //лучше внести этот стейт в CommentList
-            commOpened: false,
-        }
+/*
+    shouldComponentUpdate(nextProps) {
+        return nextProps.isOpen != this.props.isOpen
+    }
+*/
+
+    componentWillUpdate() {
+        console.log('---', 'updating Article')
+    }
+
+    componentDidUpdate() {
+        console.log('---', findDOMNode(this.refs.comments))
     }
 
     render() {
-        const { article } = this.props
-        const comments = <CommentList comments={article.comments} commOpened={this.state.commOpened} />
-        const body = this.state.isOpen
-          ? <section>
-              <p>{article.text}</p>
-              <button onClick = {this.commButtonClick}>{this.state.commOpened ? '- Скрыть комментарии' : '+ Показать комментарии'}</button>
-              {comments}
-            </section>
-          : null
-
+        const { article, toggleOpen } = this.props
         return (
             <section>
-                <h3 onClick = {this.handleClick}>{article.title}</h3>
-                {body}
+                <h3 onClick = {toggleOpen}>{article.title}</h3>
+                {this.getBody()}
             </section>
         )
     }
 
-    handleClick = ev => {
-        this.setState({
-            isOpen: !this.state.isOpen,
-        })
+    getBody() {
+        const { article, isOpen } = this.props
+        if (!isOpen) return null
+        return (
+            <div>
+                <p>{article.text}</p>
+                <CommentList comments = {article.comments} ref = "comments" />
+            </div>
+        )
     }
 
     commButtonClick = ev => {
@@ -43,5 +45,14 @@ class Article extends Component {
       })
     }
 }
+
+Article.propTypes = {
+    article: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        comments: PropTypes.array,
+        text: PropTypes.string
+    }).isRequired
+}
+
 
 export default Article
