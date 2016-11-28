@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 class AddComment extends Component {
   state = {
+    //ок, только сюда еще user следовало поместить
     value: ''
   }
 
