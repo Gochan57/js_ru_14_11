@@ -56,7 +56,8 @@ class ArticleList extends Component {
 }
 
 export default connect(state => {
-    const { articles, filters } = state
+    const { articles: articlesMap, filters } = state
+    const articles = articlesMap.toArray()
     const selected = filters.selected
     const { from, to } = filters.dateRange
 
