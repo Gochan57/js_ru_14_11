@@ -13,6 +13,11 @@ class Article extends Component {
     }
 */
 
+    static contextTypes = {
+      language: PropTypes.string,
+      dictionary: PropTypes.object
+    }
+
     componentWillUpdate() {
     }
 
@@ -34,7 +39,9 @@ class Article extends Component {
         return (
             <section>
                 <h3 onClick = {toggleOpen}>{article.title}</h3>
-                <a href = "#" onClick = {this.handleDeleteArticle}>delete me</a>
+                <a href = "#" onClick = {this.handleDeleteArticle}>
+                  {this.context.dictionary['delete me'][this.context.language]}
+                </a>
                 {this.getBody()}
             </section>
         )

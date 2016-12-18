@@ -23,9 +23,10 @@ class CommentList extends Component {
     static contextTypes = {
         router: PropTypes.object,
         store: PropTypes.object,
-        username: PropTypes.string
+        username: PropTypes.string,
+        language: PropTypes.string,
+        dictionary: PropTypes.object
     }
-
 
     componentWillReceiveProps({ isOpen, checkAndLoadComments, article}) {
         if (isOpen && !this.props.isOpen) checkAndLoadComments(article.id)
@@ -34,18 +35,18 @@ class CommentList extends Component {
     render() {
         return (
             <div>
-                <h3>User: {this.context.username}</h3>
+                <h3>{this.context.dictionary['User'][this.context.language]}: {this.context.username}</h3>
                 {this.getButton()}
                 {this.getBody()}
             </div>
         )
     }
 
-
     getButton() {
         const { comments, isOpen, toggleOpen } = this.props
         if ( !comments.length) return <span>No comments yet</span>
-        return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+        const text = (isOpen ? 'hide' : 'show')+' comments'
+        return <a href="#" onClick = {toggleOpen}>{this.context.dictionary[text][this.context.language]}</a>
     }
 
     getBody() {

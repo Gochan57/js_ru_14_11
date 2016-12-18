@@ -5,10 +5,15 @@ class ArticleIndexPage extends Component {
 
     };
 
+    static contextTypes = {
+      language: PropTypes.string,
+      dictionary: PropTypes.object
+    }
+
     render() {
         return (
             <h1>
-                Choose your article
+                {this.context.dictionary['Choose your article'][this.context.language]}
             </h1>
         )
     }

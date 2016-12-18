@@ -6,6 +6,11 @@ class NewCommentForm extends Component {
         user: ''
     }
 
+    static contextTypes = {
+        language: PropTypes.string,
+        dictionary: PropTypes.object
+    }
+
     handleChange = field => ev => {
         if (ev.target.value.length > 5) return
         this.setState({
@@ -25,8 +30,8 @@ class NewCommentForm extends Component {
     render() {
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                {this.context.dictionary['comment'][this.context.language]}: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
+                {this.context.dictionary['user'][this.context.language]}: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
                 <input type = "submit"/>
             </form>
         )
